@@ -16,11 +16,11 @@ This is a web-app using the Python flask package that will enable you to open a 
     ```
 5. Once everything is installed, you can run the password_tester module and will be given instructions in your terminal about where the app is being hosted on your local machine.
     ```
-    python password-verify.py
+    python password_verify.py
     ```
     Should look something like:
     ```
-    * Serving Flask app "password-verify" (lazy loading)
+    * Serving Flask app "password_verify" (lazy loading)
     * Environment: production
     WARNING: This is a development server. Do not use it in a production deployment.
     Use a production WSGI server instead.
