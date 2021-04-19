@@ -4,7 +4,7 @@
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Password Tester</legend>
+                <legend class="border-bottom mb-4">Admin Password Tester</legend>
                 <div class="form-group">
                     {{ form.password.label(class="form-control-label") }}
                     {% if form.password.errors %}
@@ -19,7 +19,7 @@
                     {% endif %}
                 </div>
                 <small class="text-muted">
-                    Are you an Admin? <a class="ml-2" href="{{ url_for('admin') }}">Test password here</a>
+                    Are you not an Admin? <a class="ml-2" href="{{ url_for('register') }}">Test password here</a>
                 </small>
             </fieldset>
             <div class="form-group">
