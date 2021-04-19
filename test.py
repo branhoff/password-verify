@@ -48,27 +48,26 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         # too short lower case, no numbers
         response = tester.post('/register', data=dict(password='test'))
-        self.assertTrue(b'INVALID' in response.data)
+        self.assertTrue(b'Field must be at least 8 characters long' in response.data)
+
+        response = tester.post('/register', data=dict(password='test'))
+        self.assertTrue(b'Field must contain at least one digit' in response.data)
 
         # too short lower case w/ numbers
         response = tester.post('/register', data=dict(password='test123'))
-        self.assertTrue(b'INVALID' in response.data)
+        self.assertTrue(b'Field must be at least 8 characters long' in response.data)
 
         # too short lower case w/ numbers
         response = tester.post('/register', data=dict(password='test123'))
-        self.assertTrue(b'INVALID' in response.data)
-
-        # too short lower case w/ numbers
-        response = tester.post('/register', data=dict(password='test123'))
-        self.assertTrue(b'INVALID' in response.data)
+        self.assertTrue(b'Field must be at least 8 characters long' in response.data)
 
         # correct length all lower case, no numbers
         response = tester.post('/register', data=dict(password='testtest'))
-        self.assertTrue(b'INVALID' in response.data)
+        self.assertTrue(b'Field must contain at least one digit' in response.data)
 
         # correct length all numbers
         response = tester.post('/register', data=dict(password='123456789'))
-        self.assertTrue(b'INVALID' in response.data)
+        self.assertTrue(b'Field must contain at least one letter' in response.data)
 
 if __name__ == '__main__':
     unittest.main()
