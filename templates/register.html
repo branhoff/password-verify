@@ -10,7 +10,9 @@
                     {% if form.password.errors %}
                         {{ form.password(class="form-control form-control-lg is-invalid") }}
                         <div class="invalid-feedback">
-                            <span>INVALID</span>
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
                         </div>
                     {% else %}
                         {{ form.password(class="form-control form-control-lg") }}
