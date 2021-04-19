@@ -48,18 +48,18 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         # too short lower case, no numbers
         response = tester.post('/register', data=dict(password='test'))
-        self.assertTrue(b'Field must be at least 8 characters long' in response.data)
+        self.assertTrue(b'Field must be at least 10 characters long' in response.data)
 
         response = tester.post('/register', data=dict(password='test'))
         self.assertTrue(b'Field must contain at least one digit' in response.data)
 
         # too short lower case w/ numbers
         response = tester.post('/register', data=dict(password='test123'))
-        self.assertTrue(b'Field must be at least 8 characters long' in response.data)
+        self.assertTrue(b'Field must be at least 10 characters long' in response.data)
 
         # too short lower case w/ numbers
         response = tester.post('/register', data=dict(password='test123'))
-        self.assertTrue(b'Field must be at least 8 characters long' in response.data)
+        self.assertTrue(b'Field must be at least 10 characters long' in response.data)
 
         # correct length all lower case, no numbers
         response = tester.post('/register', data=dict(password='testtest'))
@@ -73,13 +73,13 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         response = tester.post('/register', data=dict(password='password123@!@%'))
         self.assertFalse(b'Field must be at least 13 characters long' in response.data)
-        self.assertFalse(b'Field must contain at least one special character' in response.data)
+        self.assertFalse(b'Field must contain at least 3 special characters' in response.data)
         self.assertFalse(b'Field must contain at least one digit' in response.data)
         self.assertFalse(b'Field must contain at least one letter' in response.data)
 
         response = tester.post('/register', data=dict(password='!@#$%^&*1a'))
         self.assertFalse(b'Field must be at least 13 characters long' in response.data)
-        self.assertFalse(b'Field must contain at least one special character' in response.data)
+        self.assertFalse(b'Field must contain at least 3 special characters' in response.data)
         self.assertFalse(b'Field must contain at least one digit' in response.data)
         self.assertFalse(b'Field must contain at least one letter' in response.data)
 
@@ -89,7 +89,7 @@ class FlaskTestCase(unittest.TestCase):
         # too short lower case, no numbers
         response = tester.post('/admin', data=dict(password='test'))
         self.assertTrue(b'Field must be at least 13 characters long' in response.data)
-        self.assertTrue(b'Field must contain at least one special character' in response.data)
+        self.assertTrue(b'Field must contain at least 3 special characters' in response.data)
         self.assertTrue(b'Field must contain at least one digit' in response.data)
 
         # too short lower case w/ numbers
@@ -107,14 +107,17 @@ class FlaskTestCase(unittest.TestCase):
         # correct length all numbers
         response = tester.post('/admin', data=dict(password='123456789'))
         self.assertTrue(b'Field must contain at least one letter' in response.data)
-        self.assertTrue(b'Field must contain at least one special character' in response.data)
+        self.assertTrue(b'Field must contain at least 3 special characters' in response.data)
         self.assertTrue(b'Field must be at least 13 characters long' in response.data)
 
         response = tester.post('/admin', data=dict(password='<>'))
         self.assertTrue(b'Field must contain at least one letter' in response.data)
-        self.assertTrue(b'Field must contain at least one special character' in response.data)
+        self.assertTrue(b'Field must contain at least 3 special characters' in response.data)
         self.assertTrue(b'Field must be at least 13 characters long' in response.data)
         self.assertTrue(b'Field must contain at least one digit' in response.data)
+
+        response = tester.post('/admin', data=dict(password='password12345@@'))
+        self.assertTrue(b'Field must contain at least 3 special characters' in response.data)
 
 if __name__ == '__main__':
     unittest.main()

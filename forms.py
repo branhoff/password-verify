@@ -31,7 +31,7 @@ class ContainsSpecialChar(object):
     def __init__(self, min_count=1, message=None):
         self.min_count = min_count
         if not message:
-            message = u'Field must contain at least one special character'
+            message = f'Field must contain at least {min_count} special characters'
         self.message = message
         self.punctuations = set(['!', '@', 
                        '#', '$', '%', '^', '&', 
@@ -46,13 +46,13 @@ class ContainsSpecialChar(object):
             raise ValidationError(self.message)
 
 class RegistrationForm(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=8), 
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=10), 
                                                         ContainsLetter(), ContainsDigit()])
     submit = SubmitField('Submit')
     
 
 class AdminForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), Length(min=13), 
-                                                        ContainsLetter(), ContainsDigit(), ContainsSpecialChar()])
+                                                        ContainsLetter(), ContainsDigit(), ContainsSpecialChar(min_count=3)])
     submit = SubmitField('Submit')
     
